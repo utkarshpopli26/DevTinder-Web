@@ -1,19 +1,28 @@
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
-    const handleLogin = () => {
-        axios.post('http://localhost:3000/', {
-            email: email,
-            password: password
-        });
+    const dispatch = useDispatch();
+    const handleLogin = async () => {
+        try{    
+            console.log(email);
+            const res = await axios.post('http://localhost:3000/login', {
+                emailId: email,
+                password: password
+            }, {withCredentials: true});
+            dispatch(addUser(res.data));
+        } catch(err){
+            console.error("Login failed: ", err);
+        }
     }
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("utkarsh.popli@gmail.com");
+    const [password, setPassword] = useState("Utkarsh@popli1");
 
     return (
-    <div className="flex flex-col items-center justify-center">
+    <div>
         <div className="card bg-base-300 w-96 shadow-sm">
             <div className="card-body">
                 <h2 className="card-title justify-center">Login</h2>
