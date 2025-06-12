@@ -3,6 +3,7 @@ import Login from "./components/Login";
 import Body from "./components/Body";
 import { Provider } from "react-redux";
 import store from "./utils/appStore";
+import Feed from "./components/feed";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
     <BrowserRouter basename="/">
       <Routes>
           <Route path="/" element={<Body/>}>
+              <Route path="/" element={<Feed/>}/>
               <Route path="/login" element={<Login/>} />
           </Route>
       </Routes>

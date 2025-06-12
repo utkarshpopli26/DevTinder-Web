@@ -2,9 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [error, setError] = useState("");
+
     const handleLogin = async () => {
         try{    
             console.log(email);
@@ -13,8 +17,9 @@ const Login = () => {
                 password: password
             }, {withCredentials: true});
             dispatch(addUser(res.data));
+            navigate("/");
         } catch(err){
-            console.error("Login failed: ", err);
+            setError(err?.response?.data);
         }
     }
 
@@ -72,6 +77,7 @@ const Login = () => {
                           Must be more than 8 characters, including
                     <br />At least one number <br />At least one lowercase letter <br />At least one uppercase letter <br />At least one special character
                     </p>
+                    <p className="text-red-400 mt-2">{error}</p>
                 </div>
                 <div className="card-actions justify-center">
                     <button className="btn btn-primary" onClick={handleLogin}>Login</button>
