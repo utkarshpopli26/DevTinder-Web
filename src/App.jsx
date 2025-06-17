@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./utils/appStore";
 import Feed from "./components/feed";
 import ProtectedRoute from "./components/protectedRoute";
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
     <BrowserRouter basename="/">
       <Routes>
           <Route path="/" element={<Body/>}>
-                <Route path="/" element={<ProtectedRoute><Feed/></ProtectedRoute>}/>
+              <Route path="/" element={<ProtectedRoute><Feed/></ProtectedRoute>}/>
+              <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
               <Route path="/login" element={<Login/>} />
           </Route>
       </Routes>

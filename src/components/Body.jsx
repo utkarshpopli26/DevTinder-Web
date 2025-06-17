@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 const Body = () => {
-    const isLoginRoute = location.pathname === "/login";
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -32,9 +31,7 @@ const Body = () => {
         <div className="flex flex-col min-h-screen">
             <Navbar />
             <div
-                className={`flex-grow ${
-                    isLoginRoute ? "flex flex-col justify-center items-center" : ""
-                }`}
+                className={"flex-grow flex justify-center items-center"}
             >
                 <Outlet />
             </div>
