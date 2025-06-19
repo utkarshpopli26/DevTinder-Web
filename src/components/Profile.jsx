@@ -1,22 +1,62 @@
 import { useState } from "react";
 import UserCard from "./userCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { addUser } from "../utils/userSlice";
 
 const Profile = () => {
-    const [skills, setSkills] = useState([]);
+    const dispatch = useDispatch();
+    const [successMssg, setSuccessMssg] = useState(null);
+    const [error, setError] = useState(null);
+    const userFromStore = useSelector((store) => store.user);
+    const [user, setUser] = useState({
+        firstName: userFromStore?.firstName || "",
+        lastName: userFromStore?.lastName || "",
+        age: userFromStore?.age || "",
+        gender: userFromStore?.gender || "",
+        about: userFromStore?.about || "",
+        photoUrl: userFromStore?.photoUrl || "",
+        skills: userFromStore?.skills || [],
+    });
+
     const [skillInput, setSkillInput] = useState("");
-    const user = useSelector((store) => store.user);
 
     const handleAddSkill = () => {
         if (skillInput.trim() === "") return;
-        if (skills.length >= 10) return;
-        setSkills([...skills, skillInput.trim()]);
+        if (user.skills.length >= 10) return;
+        setUser((prevUser) => ({
+            ...prevUser,
+            skills: [...prevUser.skills, skillInput.trim()],
+        }));
         setSkillInput("");
     };
 
     const handleDeleteSkill = (index) => {
-        const updatedSkills = skills.filter((_, i) => i !== index);
-        setSkills(updatedSkills);
+        setUser((prevUser) => ({
+            ...prevUser,
+            skills: prevUser.skills.filter((_, i) => i !== index),
+        }));
+    };
+
+    const handleInputChange = (field, value) => {
+        setUser((prevUser) => ({
+            ...prevUser,
+            [field]: value,
+        }));
+    };
+
+    const saveProfile = async () => {
+        try{
+            const res = await axios.patch(
+                "http://localhost:3000/profile/edit",
+                { ...user },
+                { withCredentials: true }
+            );
+            setSuccessMssg(res?.data?.message);
+            setError(null);
+        } catch(err){
+            setError(err?.response?.data || "Something went wrong. Please try again.");
+        }
     };
 
     return (
@@ -28,37 +68,70 @@ const Profile = () => {
                     <div className="justify-center text-center my-4">
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">First Name</legend>
-                            <input type="text" className="input w-full" placeholder="First Name" />
+                            <input
+                                type="text"
+                                className="input w-full"
+                                value={user.firstName}
+                                onChange={(e) =>
+                                    handleInputChange("firstName", e.target.value)
+                                }
+                            />
                         </fieldset>
 
                         <fieldset className="fieldset mt-2">
                             <legend className="fieldset-legend">Last Name</legend>
-                            <input type="text" className="input w-full" placeholder="Last Name" />
+                            <input
+                                type="text"
+                                className="input w-full"
+                                value={user.lastName}
+                                onChange={(e) =>
+                                    handleInputChange("lastName", e.target.value)
+                                }
+                            />
                         </fieldset>
 
                         <fieldset className="fieldset mt-2">
                             <legend className="fieldset-legend">Age</legend>
-                            <input type="text" className="input w-full" placeholder="Age" />
+                            <input
+                                type="text"
+                                className="input w-full"
+                                value={user.age}
+                                onChange={(e) => handleInputChange("age", e.target.value)}
+                            />
                         </fieldset>
 
                         <fieldset className="fieldset mt-2">
                             <legend className="fieldset-legend">Profile Pic Url</legend>
-                            <input type="text" className="input w-full" placeholder="URL" />
+                            <input
+                                type="text"
+                                className="input w-full"
+                                value={user.photoUrl}
+                                onChange={(e) =>
+                                    handleInputChange("photoUrl", e.target.value)
+                                }
+                            />
                         </fieldset>
 
                         <legend className="fieldset-legend mt-2 justify-center">Gender</legend>
-                        <select defaultValue="Gender" className="select w-full">
-                            <option disabled={true}>Gender</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Others</option>
+                        <select
+                            value={user.gender}
+                            onChange={(e) => handleInputChange("gender", e.target.value)}
+                            className="select w-full"
+                        >
+                            <option value="" disabled>
+                                Select Gender
+                            </option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>
                         </select>
 
                         <legend className="fieldset-legend mt-2 justify-center">About</legend>
                         <textarea
                             className="textarea max-h-32 w-full"
                             maxLength={250}
-                            placeholder="About"
+                            value={user.about}
+                            onChange={(e) => handleInputChange("about", e.target.value)}
                         ></textarea>
 
                         <fieldset className="fieldset mt-2">
@@ -74,12 +147,12 @@ const Profile = () => {
                                 <button
                                     className="btn btn-primary"
                                     onClick={handleAddSkill}
-                                    disabled={skills.length >= 10}
+                                    disabled={user.skills.length >= 10}
                                 >
                                     Add
                                 </button>
                             </div>
-                            {skills.length >= 10 && (
+                            {user.skills.length >= 10 && (
                                 <p className="text-sm text-red-500 mt-1">
                                     You can only add up to 10 skills.
                                 </p>
@@ -87,11 +160,13 @@ const Profile = () => {
                         </fieldset>
 
                         {/* Display Added Skills */}
-                        {skills.length > 0 && (
+                        {user.skills.length > 0 && (
                             <div className="mt-4">
-                                <p className="text-center text-sm font-semibold">Added Skills:</p>
+                                <p className="text-center text-sm font-semibold">
+                                    Added Skills:
+                                </p>
                                 <div className="flex flex-wrap justify-center mt-2">
-                                    {skills.map((skill, index) => (
+                                    {user.skills.map((skill, index) => (
                                         <div
                                             key={index}
                                             className="badge badge-secondary badge-outline m-1 flex items-center gap-2"
@@ -110,17 +185,29 @@ const Profile = () => {
                         )}
                     </div>
                     <div className="card-actions justify-center">
-                        <button className="btn btn-primary">Save Profile</button>
+                        <button className="btn btn-primary" onClick={saveProfile}>
+                            Save Profile
+                        </button>
                     </div>
+                    {error && (
+                        <div className="text-red-400 mt-2 text-center">
+                            {error}
+                        </div>
+                    )}
+                    {successMssg && (
+                        <div className="text-green-400 mt-2 text-center">
+                            {successMssg}
+                        </div>
+                    )}
                 </div>
             </div>
 
             {/* UserCard */}
-            <div className="ml-10 flex-grow flex items-center">
-                {user && <UserCard user={user} />}
+            <div className="ml-10 flex-grow flex items-center justify-center">
+                <UserCard user={user} />
             </div>
         </div>
     );
-}
+};
 
 export default Profile;

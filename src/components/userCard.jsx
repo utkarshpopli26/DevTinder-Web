@@ -1,6 +1,6 @@
 const UserCard = ({ user }) => {
     if(!user) return null;
-    const { firstName, lastName, photoUrl, age, skills, about } = user;
+    const { firstName, lastName, photoUrl, age, skills, about, gender } = user;
     return (
         user && (
             <div className="card bg-base-300 w-96 shadow-sm">
@@ -19,8 +19,15 @@ const UserCard = ({ user }) => {
 
                     {/* Age */}
                     {age && (
-                        <p className="text-center text-sm text-gray-500">
+                        <p className="text-center text-sm">
                             Age: <span className="font-medium">{age}</span>
+                        </p>
+                    )}
+
+                    {/* Gender */}
+                    {gender && (
+                        <p className="text-center text-sm">
+                            Gender: <span className="font-medium">{gender}</span>
                         </p>
                     )}
 
