@@ -12,7 +12,7 @@ const Requests = () => {
     const fetchRequests = async () => {
         try {
             const res = await axios.get("http://localhost:3000/user/requests/pending", { withCredentials: true });
-            setRequests(res?.data?.data?.pendingRequest || []);
+            setRequests(res?.data?.pendingRequest || []);
         } catch (err) {
             console.error("Error fetching pending requests:", err);
         }
@@ -26,6 +26,7 @@ const Requests = () => {
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentRequests = requests.slice(indexOfFirstUser, indexOfLastUser);
+    console.log("Current Requests:", currentRequests);
 
     const totalPages = Math.ceil(requests.length / usersPerPage);
 
@@ -73,18 +74,18 @@ const Requests = () => {
                         >
                             <figure>
                                 <img
-                                    src={request.photoUrl || "https://via.placeholder.com/150"}
+                                    src={request.photoUrl || "https://geographyandyou.com/images/user-profile.png"}
                                     alt={request.name}
                                     className="w-full h-48 object-cover"
                                 />
                             </figure>
                             <h2 className="text-xl font-semibold text-white mb-2">
-                                {request.firstName + " " + request.lastName}
+                                {request?.fromUserId?.firstName + " " + request?.fromUserId?.lastName}
                             </h2>
                             <div className="text-neutral-content text-sm mb-4">
-                                {request.skills && request.skills.length > 0 ? (
+                                {request?.fromUserId?.skills && request?.fromUserId?.skills.length > 0 ? (
                                     <div className="flex flex-wrap justify-center gap-2">
-                                        {request.skills.map((skill, skillIndex) => (
+                                        {request?.fromUserId?.skills.map((skill, skillIndex) => (
                                             <span
                                                 key={skillIndex}
                                                 className="badge badge-secondary badge-outline"
@@ -99,16 +100,16 @@ const Requests = () => {
                             </div>
                             <div className="flex gap-2 w-full">
                                 <button
-                                    className="btn btn-success flex-grow"
-                                    onClick={() => handleAcceptRequest(request.id)}
-                                >
-                                    Accept
-                                </button>
-                                <button
                                     className="btn btn-error flex-grow"
                                     onClick={() => handleRejectRequest(request.id)}
                                 >
                                     Reject
+                                </button>
+                                <button
+                                    className="btn btn-success flex-grow"
+                                    onClick={() => handleAcceptRequest(request.id)}
+                                >
+                                    Accept
                                 </button>
                             </div>
                         </div>
