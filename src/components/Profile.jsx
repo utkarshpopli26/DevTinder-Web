@@ -54,6 +54,7 @@ const Profile = () => {
             );
             setSuccessMssg(res?.data?.message);
             setError(null);
+            dispatch(addUser(res?.data?.user));
         } catch(err){
             setError(err?.response?.data || "Something went wrong. Please try again.");
         }
