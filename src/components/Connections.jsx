@@ -53,7 +53,7 @@ const Connections = () => {
                         >
                             <figure>
                                 <img
-                                    src={connection.photoUrl || "https://via.placeholder.com/150"}
+                                    src={connection.photoUrl || "https://geographyandyou.com/images/user-profile.png"}
                                     alt={connection.name}
                                     className="w-full h-48 object-cover"
                                 />
@@ -61,7 +61,7 @@ const Connections = () => {
                             <h2 className="text-xl font-semibold text-white mb-2">
                                 {connection.firstName + " " + connection.lastName}
                             </h2>
-                            <p className="text-neutral-content text-sm mb-4">
+                            <div className="text-neutral-content text-sm mb-4">
                                 {connection.skills && connection.skills.length > 0 ? (
                                     <div className="flex flex-wrap justify-center gap-2">
                                         {connection.skills.map((skill, skillIndex) => (
@@ -76,13 +76,13 @@ const Connections = () => {
                                 ) : (
                                     <span>No skills provided</span>
                                 )}
-                            </p>
+                            </div>
                             <button className="btn btn-primary w-full">View Profile</button>
                         </div>
                     ))}
                 </div>
             ) : (
-                <p className="text-center text-neutral-content">No connections found.</p>
+                <div className="text-center text-neutral-content">No connections found.</div>
             )}
 
             {/* Pagination Controls */}
