@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useEffect } from "react";
@@ -8,31 +8,36 @@ import axios from "axios";
 
 const Body = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
 
     const user = useSelector((store) => store.user);
 
     const fetchUser = async () => {
-        if(user) return ;
-        try{
+        if (user) return; 
+        try {
             const res = await axios.get("http://localhost:3000/profile/", { withCredentials: true });
             dispatch(addUser(res.data.user));
-        } catch(err){
-            navigate("/login")
-            console.error("Error fetching user: ", err);
+        } catch (err) {
+            console.error("Error fetching user:", err);
+            if (!user && location.pathname !== "/login") {
+                navigate("/login");
+            }
         }
-    }
+    };
 
     useEffect(() => {
-        fetchUser();
-    }, [])
+        if (user && location.pathname === "/login") {
+            navigate("/profile");
+        } else {
+            fetchUser();
+        }
+    }, [user, location.pathname]);
 
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
-            <div
-                className={"flex-grow flex justify-center items-center"}
-            >
+            <div className={"flex-grow flex justify-center items-center"}>
                 <Outlet />
             </div>
             <Footer />

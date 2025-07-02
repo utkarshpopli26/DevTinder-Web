@@ -6,7 +6,7 @@ const UserCard = ({ user }) => {
             <div className="card bg-base-300 w-96 shadow-sm">
                 <figure>
                     <img
-                        src={photoUrl}
+                        src={photoUrl || "https://geographyandyou.com/images/user-profile.png"}
                         alt="Profile Picture"
                         className="w-full h-48 object-cover"
                     />
