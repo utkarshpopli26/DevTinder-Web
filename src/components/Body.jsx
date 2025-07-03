@@ -19,7 +19,6 @@ const Body = () => {
             const res = await axios.get("http://localhost:3000/profile/", { withCredentials: true });
             dispatch(addUser(res.data.user));
         } catch (err) {
-            console.error("Error fetching user:", err);
             if (!user && location.pathname !== "/login") {
                 navigate("/login");
             }
@@ -27,11 +26,7 @@ const Body = () => {
     };
 
     useEffect(() => {
-        if (user && location.pathname === "/login") {
-            navigate("/profile");
-        } else {
             fetchUser();
-        }
     }, [user, location.pathname]);
 
     return (
