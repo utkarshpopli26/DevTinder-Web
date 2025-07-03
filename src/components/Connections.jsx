@@ -48,38 +48,40 @@ const Connections = () => {
             {currentConnections.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {currentConnections.map((connection, index) => (
-                        <div
-                            key={index}
-                            className="card bg-base-300 shadow-lg rounded-lg p-6 flex flex-col items-center hover:shadow-xl transition-shadow duration-300"
-                        >
-                            <figure>
-                                <img
-                                    src={connection.photoUrl || "https://geographyandyou.com/images/user-profile.png"}
-                                    alt={connection.name}
-                                    className="w-full h-48 object-cover"
-                                />
-                            </figure>
-                            <h2 className="text-xl font-semibold text-white mb-2">
-                                {connection.firstName + " " + connection.lastName}
-                            </h2>
-                            <div className="text-neutral-content text-sm mb-4">
-                                {connection.skills && connection.skills.length > 0 ? (
-                                    <div className="flex flex-wrap justify-center gap-2">
-                                        {connection.skills.map((skill, skillIndex) => (
-                                            <span
-                                                key={skillIndex}
-                                                className="badge badge-secondary badge-outline"
-                                            >
-                                                {skill}
-                                            </span>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <span>No skills provided</span>
-                                )}
+                        connection && typeof connection === 'object' ? (
+                            <div
+                                key={index}
+                                className="card bg-base-300 shadow-lg rounded-lg p-6 flex flex-col items-center hover:shadow-xl transition-shadow duration-300"
+                            >
+                                <figure>
+                                    <img
+                                        src={connection.photoUrl || "https://geographyandyou.com/images/user-profile.png"}
+                                        alt={connection.name}
+                                        className="w-full h-48 object-cover"
+                                    />
+                                </figure>
+                                <h2 className="text-xl font-semibold text-white mb-2">
+                                    {connection.firstName + " " + connection.lastName}
+                                </h2>
+                                <div className="text-neutral-content text-sm mb-4">
+                                    {connection.skills && connection.skills.length > 0 ? (
+                                        <div className="flex flex-wrap justify-center gap-2">
+                                            {connection.skills.map((skill, skillIndex) => (
+                                                <span
+                                                    key={skillIndex}
+                                                    className="badge badge-secondary badge-outline"
+                                                >
+                                                    {skill}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <span>No skills provided</span>
+                                    )}
+                                </div>
+                                <button className="btn btn-primary w-full">View Profile</button>
                             </div>
-                            <button className="btn btn-primary w-full">View Profile</button>
-                        </div>
+                        ) : null
                     ))}
                 </div>
             ) : (

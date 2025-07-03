@@ -1,2 +1,16 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.fade-out {
+    animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9); /* Optional: Add a slight scaling effect */
+    }
+}
