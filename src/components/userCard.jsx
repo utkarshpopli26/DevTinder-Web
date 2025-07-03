@@ -1,5 +1,5 @@
 const UserCard = ({ user }) => {
-    if (!user) return null; // Return null if user is not defined
+    if (!user) return null;
 
     const { firstName, lastName, photoUrl, age, skills, about, gender } = user;
 

@@ -7,6 +7,7 @@ const Connections = () => {
     const dispatch = useDispatch();
     const connections = useSelector((store) => store.connections);
     const [currentPage, setCurrentPage] = useState(1);
+    const [error, setError] = useState("Something Went Wrong");
     const usersPerPage = 10;
 
     const fetchConnections = async () => {
@@ -14,7 +15,7 @@ const Connections = () => {
             const res = await axios.get("http://localhost:3000/user/connections", { withCredentials: true });
             dispatch(setConnections(res.data.data));
         } catch (err) {
-            console.error("Error fetching connections:", err);
+            setError(err?.message);
         }
     };
 
