@@ -20,7 +20,6 @@ const Feed = () => {
 
     useEffect(() => {
         getFeed();
-        console.log("Feed fetched successfully");
     },[]);  
 
     return (

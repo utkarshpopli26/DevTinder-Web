@@ -1,7 +1,29 @@
+import { useDispatch } from "react-redux";
+import { removeUserFromFeed } from "../utils/feedSlice";
+import { addConnection } from "../utils/connectionSlice";
+import { useState } from "react";
+import axios from "axios";
+
 const UserCard = ({ user }) => {
     if (!user) return null;
 
-    const { firstName, lastName, photoUrl, age, skills, about, gender } = user;
+    const {_id,firstName, lastName, photoUrl, age, skills, about, gender } = user;
+    const dispatch = useDispatch();
+    const [error, setError] = useState("");
+
+    const handleSubmit = async (status) => {
+        try{
+            const res = await axios.post("http://localhost:3000" + "/request/send/" + status + "/" + user._id, {}, {withCredentials: true});
+            dispatch(removeUserFromFeed({_id: user._id}));
+            if(status == "interested"){
+                dispatch(addConnection(user));
+            }
+            console.log(res);
+        }
+        catch(err){
+            setError(err?.message || "Something went wrong, please try again.");
+        }
+    }
 
     return (
         user && (
@@ -59,9 +81,14 @@ const UserCard = ({ user }) => {
 
                 {/* Actions */}
                 <div className="card-actions justify-center mt-4">
-                    <button className="btn btn-primary">Ignore</button>
-                    <button className="btn btn-secondary">Interested</button>
+                    <button className="btn btn-primary" onClick={() => handleSubmit("ignored")}>Ignore</button>
+                    <button className="btn btn-secondary" onClick={() => handleSubmit("interested")}>Interested</button>
                 </div>
+                 {error && (
+                    <div className="text-red-400 mt-2 text-center">
+                        {error}
+                    </div>
+                )}
             </div>
         </div>
         )

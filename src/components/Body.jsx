@@ -18,6 +18,7 @@ const Body = () => {
         try {
             const res = await axios.get("http://localhost:3000/profile/", { withCredentials: true });
             dispatch(addUser(res.data.user));
+            navigate("/");
         } catch (err) {
             if (!user && location.pathname !== "/login") {
                 navigate("/login");
