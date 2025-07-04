@@ -11,6 +11,16 @@
     }
     to {
         opacity: 0;
-        transform: scale(0.9); /* Optional: Add a slight scaling effect */
+        transform: scale(0.9);
     }
+}
+
+.background {
+    background-image: url('./utils/background.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
