@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {addFeed} from "../utils/feedSlice";
 import UserCard from "./userCard";
+import { BASE_URL } from "../utils/constants";
 
 const Feed = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const Feed = () => {
 
     const getFeed = async () => {
         try{
-            const res = await axios.get("http://localhost:3000/user/feed", {withCredentials: true});
+            const res = await axios.get(BASE_URL + "/user/feed", {withCredentials: true});
             dispatch(addFeed(res.data));
         } catch(err){
             setError(err.message);

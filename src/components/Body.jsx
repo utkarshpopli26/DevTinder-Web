@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { addUser } from "../utils/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Body = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Body = () => {
     const fetchUser = async () => {
         if (user) return; 
         try {
-            const res = await axios.get("http://localhost:3000/profile/", { withCredentials: true });
+            const res = await axios.get(BASE_URL + "/profile/", { withCredentials: true });
             dispatch(addUser(res.data.user));
             navigate("/");
         } catch (err) {
@@ -27,7 +28,9 @@ const Body = () => {
     };
 
     useEffect(() => {
+        if (location.pathname !== "/login") {
             fetchUser();
+        }
     }, [user, location.pathname]);
 
     return (

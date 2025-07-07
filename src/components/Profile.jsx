@@ -3,6 +3,7 @@ import UserCard from "./userCard";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addUser } from "../utils/userSlice";
+import { BASE_URL } from "../utils/constants";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const Profile = () => {
     const saveProfile = async () => {
         try{
             const res = await axios.patch(
-                "http://localhost:3000/profile/edit",
+                BASE_URL + "/profile/edit",
                 { ...user },
                 { withCredentials: true }
             );

@@ -3,6 +3,7 @@ import { removeUserFromFeed } from "../utils/feedSlice";
 import { addConnection } from "../utils/connectionSlice";
 import { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const UserCard = ({ user }) => {
     if (!user) return null;
@@ -16,7 +17,7 @@ const UserCard = ({ user }) => {
         setIsAnimating(true);
 
         try {
-            const res = await axios.post("http://localhost:3000" + "/request/send/" + status + "/" + user._id, {}, { withCredentials: true });
+            const res = await axios.post(BASE_URL + "/request/send/" + status + "/" + user._id, {}, { withCredentials: true });
 
             setTimeout(() => {
                 dispatch(removeUserFromFeed({ _id: user._id }));

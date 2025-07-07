@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { addConnection } from "../utils/connectionSlice";
+import { BASE_URL } from "../utils/constants";
 
 const Requests = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const Requests = () => {
 
     const fetchRequests = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/user/requests/pending", { withCredentials: true });
+            const res = await axios.get(BASE_URL + "/user/requests/pending", { withCredentials: true });
             setRequests(res?.data?.pendingRequest || []);
         } catch (err) {
             console.error("Error fetching pending requests:", err);
@@ -44,7 +45,7 @@ const Requests = () => {
     const handleAcceptRequest = async (requestId) => {
         try {
             const res = await axios.post(
-                `http://localhost:3000/request/recieve/accepted/${requestId}`,
+                BASE_URL + `/request/recieve/accepted/${requestId}`,
                 {},
                 { withCredentials: true }
             );
@@ -60,7 +61,7 @@ const Requests = () => {
         try {
             console.log("Rejecting request with ID:", requestId); // Debugging
             await axios.post(
-                `http://localhost:3000/request/recieve/rejected/${requestId}`,
+                BASE_URL + `/request/recieve/rejected/${requestId}`,
                 {},
                 { withCredentials: true }
             );

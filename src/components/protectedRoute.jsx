@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
     const user = useSelector((store) => store.user);
+    const location = useLocation();
 
     // If the user is not logged in, redirect to the login page
-    if (!user) {
+    if (!user && location.pathname !== "/login") {
         return <Navigate to="/login" />;
     }
 
