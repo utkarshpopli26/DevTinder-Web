@@ -12,6 +12,8 @@ const Login = () => {
     const [isLoginForm, setIsLoginForm] = useState(true);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleSubmit = async () => {
         if(isLoginForm){
@@ -51,9 +53,6 @@ const Login = () => {
         }
         
     };
-
-    const [email, setEmail] = useState("utkarsh.popli@gmail.com");
-    const [password, setPassword] = useState("Utkarsh@popli1");
 
     return (
         <div>
