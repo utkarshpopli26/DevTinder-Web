@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/protectedRoute";
 import Profile from "./components/Profile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
+import Chat from "./components/Chat";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
               <Route path="/connections" element={<ProtectedRoute><Connections/></ProtectedRoute>}/>
               <Route path="/requests" element={<ProtectedRoute><Requests/></ProtectedRoute>}/>
+              <Route path="/chat/:targetUserId" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
               <Route path="/login" element={<Login/>} />
           </Route>
       </Routes>

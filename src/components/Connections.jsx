@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setConnections } from "../utils/connectionSlice";
 import { BASE_URL } from "../utils/constants";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
     const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const Connections = () => {
                                 <figure>
                                     <img
                                         src={connection.photoUrl || "https://geographyandyou.com/images/user-profile.png"}
-                                        alt={connection.name}
+                                        alt={connection.firstName}
                                         className="w-full h-48 object-cover"
                                     />
                                 </figure>
@@ -80,7 +81,7 @@ const Connections = () => {
                                         <span>No skills provided</span>
                                     )}
                                 </div>
-                                <button className="btn btn-primary w-full">View Profile</button>
+                                <Link to={"/chat/" + connection._id}><button className="btn btn-primary w-full">Chat</button></Link>
                             </div>
                         ) : null
                     ))}
